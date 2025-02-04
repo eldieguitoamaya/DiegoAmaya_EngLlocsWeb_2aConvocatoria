@@ -33,8 +33,12 @@
   
       <!-- Si no tiene respuesta, mostrar campo para responder -->
       <div *ngIf="!pregunta.resposta">
-        <input type="text" [(ngModel)]="pregunta.resposta" placeholder="Escribe tu respuesta" />
-        <button (click)="responderPregunta(pregunta._id)">Responder</button>
+        <input 
+          type="text" 
+          [(ngModel)]="pregunta.nuevaRespuesta" 
+          placeholder="Escribe tu respuesta" 
+        />
+        <button (click)="pregunta.nuevaRespuesta && responderPregunta(pregunta._id, pregunta.nuevaRespuesta)">Responder</button>
       </div>
     </div>
   </div>

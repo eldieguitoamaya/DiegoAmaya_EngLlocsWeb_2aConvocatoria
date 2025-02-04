@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../Services/api.service';
 import { Pregunta } from '../models/pregunta';
-import {FormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+
 @Component({
   selector: 'app-preguntas',
   standalone: true,
@@ -49,13 +50,16 @@ export class PreguntasComponent implements OnInit {
   }
 
   // Responder una pregunta existente
-  responderPregunta(id: string): void {
-    const respuesta = this.preguntas.find(p => p._id === id)?.resposta;
-    if (respuesta) {
+  responderPregunta(id: string, respuesta: string): void {
+    // Asegurarse de que la respuesta no esté vacía
+    if (respuesta.trim()) {
       this.apiService.responderPregunta(id, respuesta).subscribe(
         (preguntaActualizada) => {
+          // Actualizamos la pregunta en la lista de preguntas
           const index = this.preguntas.findIndex(p => p._id === id);
-          this.preguntas[index] = preguntaActualizada;
+          if (index !== -1) {
+            this.preguntas[index].resposta = preguntaActualizada.resposta;
+          }
         },
         (error) => {
           console.error('Error al responder pregunta', error);
@@ -64,4 +68,3 @@ export class PreguntasComponent implements OnInit {
     }
   }
 }
-
