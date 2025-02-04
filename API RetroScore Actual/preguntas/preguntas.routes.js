@@ -1,9 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const preguntaController = require('./pregunta.controller');
+const preguntaController = require('./preguntas.controllers.js');
 
-router.post('/preguntes', preguntaController.crearPregunta);
-router.put('/preguntes/:id', preguntaController.responderPregunta);
-router.get('/preguntes', preguntaController.obtenerPreguntas);
+// Definir rutas
+router.post('/', preguntaController.crearPregunta);
+router.put('/:id', preguntaController.responderPregunta);
+router.get('/', preguntaController.obtenerPreguntas);
 
+// Exportar correctamente
 module.exports = router;
