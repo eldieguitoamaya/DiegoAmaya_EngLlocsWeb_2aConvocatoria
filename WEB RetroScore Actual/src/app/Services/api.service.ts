@@ -6,6 +6,7 @@ import { Jersey } from '../models/Jersey';
 import { Jerseys } from '../models/Jerseys';
 import { Cart } from '../models/Cart';
 import { Users } from '../models/Users';
+import { Pregunta } from '../models/pregunta';
 
 @Injectable({
   providedIn: 'root'
@@ -34,6 +35,22 @@ export class ApiService {
 
   createUser(userData: any): Observable<any> {
     return this.http.post(`${this.apiUrl}/Users/register`, userData);
+  }
+
+  // Obtener todas las preguntas, con o sin respuesta
+  obtenerPreguntas(filtrarSinRespuesta: boolean): Observable<Pregunta[]> {
+    const params = filtrarSinRespuesta ? { preguntes_per_respondre: 'true' } : {};
+    return this.http.post<Pregunta[]>(`${this.apiUrl}/preguntas/obtener`, params);
+  }
+
+  // Crear una nueva pregunta
+  crearPregunta(pregunta: string): Observable<Pregunta> {
+    return this.http.post<Pregunta>(`${this.apiUrl}/preguntas`, { pregunta });
+  }
+
+  // Responder una pregunta
+  responderPregunta(id: string, resposta: string): Observable<Pregunta> {
+    return this.http.put<Pregunta>(`${this.apiUrl}/preguntas/${id}`, { resposta });
   }
 
   login(userData: any): Observable<Users> {

@@ -1,1 +1,41 @@
-<p>preguntas works!</p>
+<div class="preguntas-container">
+    <h1>Preguntas</h1>
+  
+    <!-- Filtro de preguntas sin respuesta -->
+    <div class="filter-container">
+      <label>
+        <input type="checkbox" [(ngModel)]="filtrarSinRespuesta" (change)="obtenerPreguntas()">
+        Mostrar solo preguntas sin respuesta
+      </label>
+    </div>
+  
+    <!-- Formulario para crear una nueva pregunta -->
+    <div class="crear-pregunta-container">
+      <h2>Crear nueva pregunta</h2>
+      <form (ngSubmit)="crearPregunta()">
+        <input type="text" [(ngModel)]="nuevaPregunta" name="pregunta" placeholder="Escribe una pregunta" required />
+        <button type="submit">Crear pregunta</button>
+      </form>
+    </div>
+  
+    <!-- Listado de preguntas -->
+    <div *ngIf="preguntas.length === 0" class="no-preguntas">
+      <p>No hay preguntas disponibles.</p>
+    </div>
+  
+    <div *ngFor="let pregunta of preguntas" class="pregunta">
+      <p><strong>{{ pregunta.pregunta }}</strong></p>
+  
+      <!-- Mostrar respuesta si existe -->
+      <div *ngIf="pregunta.resposta">
+        <p><strong>Respuesta:</strong> {{ pregunta.resposta }}</p>
+      </div>
+  
+      <!-- Si no tiene respuesta, mostrar campo para responder -->
+      <div *ngIf="!pregunta.resposta">
+        <input type="text" [(ngModel)]="pregunta.resposta" placeholder="Escribe tu respuesta" />
+        <button (click)="responderPregunta(pregunta._id)">Responder</button>
+      </div>
+    </div>
+  </div>
+  
