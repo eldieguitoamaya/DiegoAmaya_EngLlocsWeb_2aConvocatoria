@@ -25,14 +25,18 @@ exports.responderPregunta = async (req, res) => {
     }
 };
 
-// Obtener todas las preguntas o solo las que no tienen respuesta
 exports.obtenerPreguntas = async (req, res) => {
     try {
-        const { preguntes_per_respondre } = req.query;
-        const filtro = preguntes_per_respondre ? { resposta: null } : {};
-        const preguntas = await Pregunta.find(filtro);
-        res.json(preguntas);
+        const { preguntes_per_respondre } = req.body; // Usamos req.body para obtener los parámetros del cuerpo de la solicitud
+        const filtro = preguntes_per_respondre 
+            ? { resposta: null } // Si preguntes_per_respondre es true, solo preguntas sin respuesta
+            : {}; // Si no se pasa, obtenemos todas las preguntas
+
+        const preguntas = await Pregunta.find(filtro); // Filtramos con la condición
+        res.json(preguntas); // Devolvemos las preguntas encontradas
     } catch (error) {
         res.status(500).json({ error: 'Error al obtener las preguntas' });
     }
 };
+
+

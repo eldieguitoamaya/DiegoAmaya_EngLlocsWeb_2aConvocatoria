@@ -5,7 +5,7 @@ const preguntaController = require('./preguntas.controllers.js');
 // Definir rutas
 router.post('/', preguntaController.crearPregunta);
 router.put('/:id', preguntaController.responderPregunta);
-router.get('/', preguntaController.obtenerPreguntas);
+router.post('/obtener', preguntaController.obtenerPreguntas);
 
 // Exportar correctamente
 module.exports = router;
